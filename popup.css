@@ -1,0 +1,29 @@
+
+body {
+  min-width: 450px;
+  max-width: 100%;
+  position: relative;
+  vertical-align:middle;
+}
+
+#user-credentials {
+  padding-bottom: 10px;
+}
+
+#activity-options {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+#document-options {
+  padding-top: 10px;
+}
+
+.panel-header h1 {
+  padding-left: 15px;
+}
+
+#user-name {
+  padding-top: 15px;
+  padding-right: 15px;
+}
