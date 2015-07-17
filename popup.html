@@ -4,34 +4,69 @@
  "browser_action" field in manifest.json contains the "default_popup" key with
  value "popup.html".
  -->
-<html>
-  <head>
-    <title>Agile Docs Extension</title>
-    <style>
-      body {
-        font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
-        font-size: 100%;
-      }
-      #status {
-        /* avoid an excessively wide status text */
-        white-space: pre;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        max-width: 400px;
-      }
-    </style>
-
-    <!--
-      - JavaScript and HTML must be in separate files: see our Content Security
-      - Policy documentation[1] for details and explanation.
-      -
-      - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
-     -->    
+<html><head>
+    <title></title>
+    <link href="http://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+    <!-- compiled files -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="bootstrap.min.js"></script>    
     <script src="jquery-2.1.4.min.js"></script>
+    
     <script src="popup.js"></script>
-  </head>
-  <body>
-    <div id="status"></div>    
-  </body>
-</html>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="panel panel-default">
+    <div class="panel-header">
+      <div class="row">
+        <div class="col-xs-6">
+          <h1>Agile Docs</h1>
+        </div>
+        <div class="col-xs-6">
+          <p id="user-name" class="text-right"><strong>User Name</strong></p>
+        </div>
+      </div>
+    </div>
 
+    <div class="panel-body">
+        <div id="user-credentials" class="input-group">
+          <input type="text" class="form-control" name="apiKey" id="apiKey" autofocus="" placeholder="Pivotal Tracker API Key" value="3e62e57a6b0cb453a7d92de0449ae553">
+          <span class="input-group-btn">
+            <div id="set" role="button" class="btn btn-default" tabindex="0">Set</div>
+          </span>
+        </div>
+      
+      <div id="activity-options" class="input-group">
+        <span class="input-group-addon">
+          <input type="checkbox" id="outputActivityChecked" name="outputActivityChecked" checked="'true'">
+        </span>
+        <p class="form-control">Include Activity</p>
+      </div>
+      
+      <div id="document-options" class="input-group">
+        <span class="input-group-addon">
+          <input type="radio" name="format" value="fullDocument" checked="True">
+        </span>
+        <p class="form-control">Full Document</p>
+        <span class="input-group-addon">
+          <input type="radio" name="format" value="summaryDocument">
+        </span>
+        <p class="form-control">Summary Document</p>
+      </div>
+    </div>
+
+    <div class="panel-footer">
+      <div id="autoOption"></div>
+        <span class="glyphicon glyphicon-copyright-mark" aria-hidden="true"></span>
+        <span id="year">2015</span> Xtopher -
+        <a class="ade-a" id="translate-link" target="_blank" href="https://pivotal-pdf.appspot.com">Agile Docs</a>
+    </div>
+  </div>
+
+</body></html>
