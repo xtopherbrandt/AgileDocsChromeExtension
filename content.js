@@ -5,20 +5,57 @@ $(document).ready(function(){
 
   console.log("Agile Docs Loaded");
   
-  $.ajax({
-   type: "GET",
-   url : "https://www.pivotaltracker.com/profile",
-   dataType : "html",
-   success : function ( data, status, xhr ){
-     // set the returned contents in a new base <html> tag.
-     var response = $('<html />').html(data);
-     console.log ( response.find("ul.api.rows.read").find("li h4")[0].nextElementSibling );
-   },
-   error : function ( xhr, status, error ){
-     console.log ( error );
-   }
-  });
-    
+  // The following code was stolen from John Franklin's Story Tools for Pivotal Tracker extension
+  var userToken;
+  
+  if(localStorage["refreshed"] == null)
+  {
+      localStorage["refreshed"] = false;
+  }
+  var tokenIsLoadable = true;
+  getToken = function()
+  {
+      $.get("https://www.pivotaltracker.com/profile", function(data) {
+           //console.log(data);
+           var v = data.indexOf("<h4>API token</h4>");
+           if(v == -1)
+           {
+               if(!localStorage["refreshed"])//Prevents endless refreshing even if this method doesn't always work.
+               {
+                   localStorage["refreshed"] = true;
+                   location.reload(true);
+               }
+               else if(tokenIsLoadable)
+               {
+                   var q = confirm("For this app to work, you need to add an API token to Pivotal Tracker. Clicking OK will open a page where you can do this; just scroll to the bottom and click the bottom button in the API token section.");
+                   if(q)
+                   {
+                       window.open("https://www.pivotaltracker.com/profile");
+                   }
+                   tokenIsLoadable = false;
+               }
+               return;
+           }//console.log(v)
+           else
+               tokenIsLoadable = true;
+           //console.log(data.indexOf("</div>", v))
+           userToken = $.trim(data.substring(v + 40, data.indexOf("</div>", v) - 1));
+           localStorage["Tracker Token"] = userToken;
+           localStorage["refreshed"] = false;//allows for refresh if code completes so extension can update.
+      });
+  }
+  //getToken();
+  
+  if(localStorage["Tracker Token"] == null)
+  {
+       getToken();
+  }
+  else
+  {
+      userToken = localStorage["Tracker Token"];
+  }
+  // end John Franklin code  
+  
   MutationObserver = window.WebKitMutationObserver;
   
   var observer = new MutationObserver(function(mutations, observer) {
