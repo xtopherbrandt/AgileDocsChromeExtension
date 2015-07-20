@@ -5,6 +5,20 @@ $(document).ready(function(){
 
   console.log("Agile Docs Loaded");
   
+  $.ajax({
+   type: "GET",
+   url : "https://www.pivotaltracker.com/profile",
+   dataType : "html",
+   success : function ( data, status, xhr ){
+     // set the returned contents in a new base <html> tag.
+     var response = $('<html />').html(data);
+     console.log ( response.find("ul.api.rows.read").find("li h4")[0].nextElementSibling );
+   },
+   error : function ( xhr, status, error ){
+     console.log ( error );
+   }
+  });
+    
   MutationObserver = window.WebKitMutationObserver;
   
   var observer = new MutationObserver(function(mutations, observer) {
