@@ -13,14 +13,12 @@ $(document).ready(function(){
           });   
 
 
-  $("#outputActivityChecked:checked").val( localStorage["outputActivityChecked"] );
-    
   $("#outputActivityChecked").change( function () {
     localStorage["outputActivityChecked"] = $("#outputActivityChecked:checked").val();
   });
     
-  $("#format").change( function () {
-    localStorage["format"] = $("#format:selected").val();
+  $("input[name='format']").change( function () {
+    localStorage["format"] = $("input[name='format']:checked").val();
   });
 
 });

@@ -82,10 +82,10 @@ $(document).ready(function(){
           chrome.runtime.sendMessage({userToken: userToken}, function(response) {
             if ( typeof response != 'undefined') {
               console.log (response);
-              if ( 'outputActivityChecked' in response ) {
-                request.activity = response.outputActivityChecked;
+              if ( "outputActivityChecked" in response ) {
+                request.activity = ( response.outputActivityChecked === 'undefined' ) ? "false" : "true";
               }
-              if ( 'format' in response ){
+              if ( "format" in response ){
                 request.format = response.format;
               }
             }
