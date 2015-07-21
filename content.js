@@ -60,38 +60,44 @@ $(document).ready(function(){
   }
   // end John Franklin code  
 
-  var outputActivityChecked;
-  var format;
-  
-  // need to reverse the message passing to send a request to the extension to get the current settings
-  //Listen for requests from the extension
-  chrome.runtime.onMessage.addListener(
-    function(request, sender, sendResponse) {
-          outputActivityChecked = request.outputActivityChecked;
-          format = request.format;
-      console.log( "output Activity: " + outputActivityChecked );
-      console.log( "format: " + format );
-    });  
-
   
   MutationObserver = window.WebKitMutationObserver;
   
-  var observer = new MutationObserver(function(mutations, observer) {
+  var observer = new MutationObserver( function(mutations, observer) {
       // fired when a mutation occurs
       console.log(mutations, observer);
 
       // if we haven't already added the pdf button
-      if ( $(".export_pdf").length === 0 ){
+      if ( $(".export_pdf").length === 0 ) {
         // add the PDF button
         $(".tc_page_header .selected_stories_controls").append("<button type='button' title='Export selected stories to PDF' class='export_csv export_pdf' data-reactid='.0.0.0.$-3.7'>PDF</button>");
 
-        $(".export_pdf").click(function(){
+        // listen to clicks of our PDF button
+        $(".export_pdf").click( function() {
           var userToken = localStorage["Tracker Token"];
           var request={apiKey:userToken, projectId:"", stories:[],activity:true, format:"fullDocument"};
           var urlParts = window.location.href.split("/");
+
+          //Send a request for the extension configuration
+          chrome.runtime.sendMessage({userToken: userToken}, function(response) {
+            if ( typeof response != 'undefined') {
+              console.log (response);
+              if ( 'outputActivityChecked' in response ) {
+                request.activity = response.outputActivityChecked;
+              }
+              if ( 'format' in response ){
+                request.format = response.format;
+              }
+            }
+            else
+            {
+              console.log ( "Agile Docs Extension did not respond.");
+            }
+          });
       
           request.projectId = urlParts[urlParts.length - 1];
           
+          // add the selected stories to the request
           $(".selected").each( function( index ){
             request.stories.push( $(this).parentsUntil("div").parent().attr("data-id") );
           });

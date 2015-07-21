@@ -11,10 +11,17 @@ $(document).ready(function(){
             alert ("Get User Error.\n" + "Status: " + status + "\nError: " + error  );
           }
           });   
-            
-  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, {outputActivityChecked: $("#outputActivityChecked").val(), format: $("#format").val()}, function(response) {
-      console.log("page response: " + response );
-    });
+
+
+  $("#outputActivityChecked:checked").val( localStorage["outputActivityChecked"] );
+    
+  $("#outputActivityChecked").change( function () {
+    localStorage["outputActivityChecked"] = $("#outputActivityChecked:checked").val();
   });
+    
+  $("#format").change( function () {
+    localStorage["format"] = $("#format:selected").val();
+  });
+
 });
+
