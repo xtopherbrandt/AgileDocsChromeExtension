@@ -4,19 +4,21 @@ $(document).ready(function(){
   var name = $(".raw_context_name").text();
 
   console.log("Agile Docs Loaded");
-  
+
   // The following code was stolen from John Franklin's Story Tools for Pivotal Tracker extension
   var userToken;
   
-  if(localStorage["refreshed"] == null)
+  if(localStorage["refreshed"] === null)
   {
       localStorage["refreshed"] = false;
   }
+  
   var tokenIsLoadable = true;
+  
   getToken = function()
   {
       $.get("https://www.pivotaltracker.com/profile", function(data) {
-           //console.log(data);
+           
            var v = data.indexOf("<h4>API token</h4>");
            if(v == -1)
            {
@@ -35,18 +37,20 @@ $(document).ready(function(){
                    tokenIsLoadable = false;
                }
                return;
-           }//console.log(v)
+           }
            else
                tokenIsLoadable = true;
-           //console.log(data.indexOf("</div>", v))
+               
+           
            userToken = $.trim(data.substring(v + 40, data.indexOf("</div>", v) - 1));
            localStorage["Tracker Token"] = userToken;
            localStorage["refreshed"] = false;//allows for refresh if code completes so extension can update.
+           
       });
-  }
+  };
   //getToken();
   
-  if(localStorage["Tracker Token"] == null)
+  if(localStorage["Tracker Token"] === null)
   {
        getToken();
   }
@@ -55,6 +59,20 @@ $(document).ready(function(){
       userToken = localStorage["Tracker Token"];
   }
   // end John Franklin code  
+
+  var outputActivityChecked;
+  var format;
+  
+  // need to reverse the message passing to send a request to the extension to get the current settings
+  //Listen for requests from the extension
+  chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+          outputActivityChecked = request.outputActivityChecked;
+          format = request.format;
+      console.log( "output Activity: " + outputActivityChecked );
+      console.log( "format: " + format );
+    });  
+
   
   MutationObserver = window.WebKitMutationObserver;
   
@@ -68,7 +86,8 @@ $(document).ready(function(){
         $(".tc_page_header .selected_stories_controls").append("<button type='button' title='Export selected stories to PDF' class='export_csv export_pdf' data-reactid='.0.0.0.$-3.7'>PDF</button>");
 
         $(".export_pdf").click(function(){
-          var request={apiKey:"3e62e57a6b0cb453a7d92de0449ae553", projectId:"", stories:[],activity:true, format:"fullDocument"};
+          var userToken = localStorage["Tracker Token"];
+          var request={apiKey:userToken, projectId:"", stories:[],activity:true, format:"fullDocument"};
           var urlParts = window.location.href.split("/");
       
           request.projectId = urlParts[urlParts.length - 1];
@@ -108,6 +127,5 @@ $(document).ready(function(){
     //...
   });
  
-
 
 });
