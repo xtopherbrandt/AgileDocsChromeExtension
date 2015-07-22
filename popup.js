@@ -12,14 +12,40 @@ $(document).ready(function(){
           }
           });   
 
-
+  getOptions();
+  
   $("#outputActivityChecked").change( function () {
-    localStorage["outputActivityChecked"] = $("#outputActivityChecked:checked").val();
+    saveOptions( $("#outputActivityChecked").is(':checked'), $("input[name='format']:checked").attr('id') );
   });
     
   $("input[name='format']").change( function () {
-    localStorage["format"] = $("input[name='format']:checked").val();
+    saveOptions( $("#outputActivityChecked").is(':checked'), $("input[name='format']:checked").attr('id') );
   });
 
 });
 
+saveOptions = function (outputActivity, format){
+  chrome.storage.sync.set ({
+      outputActivity: outputActivity,
+      format: format
+    });
+    
+    //Store the options locally too
+    localStorage["outputActivityChecked"] = outputActivity;
+    localStorage["format"] = format;
+};
+
+getOptions = function (outputActivity, format){
+  chrome.storage.sync.get ({
+      outputActivity: true,
+      format : "fullDocument"
+    }, function( options ){
+      $("#outputActivityChecked").attr('checked', options.outputActivity);
+      $("input#" + options.format ).prop('checked', true);
+      
+      //Store the options locally too
+      localStorage["outputActivityChecked"] = options.outputActivity;
+      localStorage["format"] = options.format;
+  } );
+
+};
