@@ -101,7 +101,7 @@ $(document).ready(function(){
         // listen to clicks of our PDF button
         $(".export_pdf").click( function() {
           var userToken = localStorage["Tracker Token"];
-          var request={apiKey:userToken, projectId:"", stories:[],activity:localStorage["outputActivityChecked"], format:localStorage["format"]};
+          var request={apiKey:userToken, projectId:"", stories:[],activities: (localStorage["outputActivityChecked"]==='true'), format:localStorage["format"]};
           var urlParts = window.location.href.split("/");
 
           request.projectId = urlParts[urlParts.length - 1];

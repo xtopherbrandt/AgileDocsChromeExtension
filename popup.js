@@ -33,6 +33,11 @@ saveOptions = function (outputActivity, format){
     //Store the options locally too
     localStorage["outputActivityChecked"] = outputActivity;
     localStorage["format"] = format;
+
+    // Send an update to the page
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {outputActivityChecked: outputActivity, format: format });
+    });
 };
 
 getOptions = function (outputActivity, format){
