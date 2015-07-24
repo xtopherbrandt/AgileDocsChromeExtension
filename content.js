@@ -68,7 +68,6 @@ $(document).ready(function(){
 
   var observer = new MutationObserver( function(mutations, observer) {
       // fired when a mutation occurs
-      console.log(mutations, observer);
 
       // if we haven't already added the pdf button
       if ( $(".export_pdf").length === 0 ) {
@@ -76,9 +75,8 @@ $(document).ready(function(){
         $(".tc_page_header .selected_stories_controls").append("<button type='button' title='Export selected stories to PDF' class='export_csv export_pdf' data-reactid='.0.0.0.$-3.7'>PDF</button>");
 
         //Send a request for the extension configuration
-        chrome.runtime.sendMessage({userToken: userToken}, function(response) {
+        chrome.runtime.sendMessage({}, function(response) {
           if ( typeof response != 'undefined') {
-            console.log (response);
             if ( "outputActivityChecked" in response ) {
               localStorage["outputActivityChecked"] = response.outputActivityChecked;
             }
@@ -111,8 +109,6 @@ $(document).ready(function(){
             request.stories.push( $(this).parentsUntil("div").parent().attr("data-id") );
           });
 
-          console.log (request);
-
           $.ajax({
             type : "POST",
             url : "https://pivotal-pdf.appspot.com/v2/generatePDF",
@@ -122,9 +118,7 @@ $(document).ready(function(){
                 var win=window.open("data:application/pdf, " + escape(xhr.responseText));
             },
             error : function ( xhr, status, error ) {
-              alert ("Agile Docs Generate Error."  );
-              alert ("Status: " + status );
-              alert ("Error: " + error);
+              alert ("Agile Docs Responded with an error." + "\nStatus: " + status + "\nError: " + error );
             }
             });
 
