@@ -1,7 +1,6 @@
 
 
 $(document).ready(function(){
-  var name = $(".raw_context_name").text();
 
   console.log("Agile Docs Loaded");
 
@@ -48,17 +47,11 @@ $(document).ready(function(){
 
       });
   };
-  //getToken();
-
-  if(localStorage["Tracker Token"] === null)
-  {
-       getToken();
-  }
-  else
-  {
-      userToken = localStorage["Tracker Token"];
-  }
   // end John Franklin code
+
+  //getToken();
+  getToken();
+  userToken = localStorage["Tracker Token"];
 
   // initialize our default options
   localStorage["outputActivityChecked"] = true;
@@ -116,6 +109,7 @@ $(document).ready(function(){
             success : function ( data, status, xhr ) {
 
                 var win=window.open("data:application/pdf, " + escape(xhr.responseText));
+
             },
             error : function ( xhr, status, error ) {
               alert ("Agile Docs Responded with an error." + "\nStatus: " + status + "\nError: " + error );
