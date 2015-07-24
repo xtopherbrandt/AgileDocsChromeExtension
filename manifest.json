@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
   "name": "Agile Docs",
-  "description": "Creates a PDF report of the selected stories in PivotalTracker. Only works with https://www.pivotaltracker.com",
-  "version": "2015.1.0.0",
+  "description": "Agile Docs adds printable output to Pivotal Tracker.",
+  "version": "2015.1.0.1",
 
   "icons": {
     "128": "AgileDocsIcon_128.png"
