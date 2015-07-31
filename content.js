@@ -16,6 +16,7 @@ $(document).ready(function(){
 
   getToken = function()
   {
+    if ( window.location.hostname === 'www.pivotaltracker.com' ){
       $.get("https://www.pivotaltracker.com/profile", function(data) {
 
            var v = data.indexOf("<h4>API token</h4>");
@@ -46,6 +47,7 @@ $(document).ready(function(){
            localStorage["refreshed"] = false;//allows for refresh if code completes so extension can update.
 
       });
+    }
   };
   // end John Franklin code
 

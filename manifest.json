@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Agile Docs",
   "description": "Agile Docs adds printable output to Pivotal Tracker.",
-  "version": "2015.1.0.2",
+  "version": "2015.1.0.3",
 
   "icons": {
     "128": "AgileDocsIcon_128.png"
