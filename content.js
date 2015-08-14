@@ -17,7 +17,7 @@ $(document).ready(function(){
   getToken = function()
   {
     if ( window.location.hostname === 'www.pivotaltracker.com' ){
-      $.get("https://www.pivotaltracker.com/profile", function(data) {
+      $.get("https://www.pivotaltracker.com/profile", function(data, status) {
 
            var v = data.indexOf("<h4>API token</h4>");
            if(v == -1)
