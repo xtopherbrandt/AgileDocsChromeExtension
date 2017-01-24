@@ -67,7 +67,7 @@ $(document).ready(function(){
       // if we haven't already added the pdf button
       if ( $(".export_pdf").length === 0 ) {
         // add the PDF button
-        $(".tc_page_header .selected_stories_controls").append("<button type='button' title='Export selected stories to PDF' class='export_csv export_pdf' data-reactid='.0.0.0.$-3.7'>PDF</button>");
+        $(".tc_page_header .selectedStoriesControls__actions").append("<button type='button' title='Export selected stories to PDF' class='selectedStoriesControls__button selectedStoriesControls__button--csv export_csv export_pdf'><span>PDF</span></button>");
 
         //Send a request for the extension configuration
         chrome.runtime.sendMessage({}, function(response) {
@@ -123,7 +123,7 @@ $(document).ready(function(){
       // ...
   });
 
-  var header = document.querySelector(".tc_page_header ul[data-reactid='.0.0.0']");
+  var header = document.querySelector(".tc_page_header ul");
 
   // define what element should be observed by the observer
   // and what types of mutations trigger the callback
